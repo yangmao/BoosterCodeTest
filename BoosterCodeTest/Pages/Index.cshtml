@@ -6,10 +6,10 @@
 
 <div class="text-center">
     <div>
-    <input type="text" id="displayname"/>
+    <input type="text" title="dfdd" id="displayname"/>
     </div>
     <div class="mt-5">
-        <input type="text" id="message"/>
+        <input type="text" title="dfdd"  id="message" />
         <input type="button" id="sendmessage" value="send"/>
     </div>
     <div class="mt-3">
@@ -23,8 +23,10 @@
     var connection = new signalR.HubConnectionBuilder().withUrl("/wordshub").build();
     connection.start().catch(function (err) {
         document.getElementById("sendmessage").addEventListener("click", function (event) {
+            
             var user = document.getElementById("displayname").value;
             var message = document.getElementById("message").value;
+            console.log(user);
             connection.invoke("SendMessage", user, message).catch(function (err) {
                 return console.error(err.toString());
             });

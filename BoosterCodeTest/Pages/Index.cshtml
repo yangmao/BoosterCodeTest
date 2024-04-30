@@ -18,16 +18,17 @@
     var connection = new signalR.HubConnectionBuilder().withUrl("/wordshub").build();
     connection.start();
     document.getElementById("sendmessage").addEventListener("click", function (event) {
+        var label = document.getElementById("message").value;
         var outcome = document.getElementById("message").value;
-        connection.invoke("SendMessage", label,outcome).catch(function (err) {
+        connection.invoke("SendMessage",label,outcome).catch(function (err) {
             return console.error(err.toString());
         });
         event.preventDefault();
     });
-    connection.on("RecieveMessage", function (label outcome) {
-        var display = label+": "+outcome
+    connection.on("RecieveMessage", function (label,outcome) {
+        var display = label + ": " + outcome;
         var li = document.createElement("li");
-        li.textContent = ;
+        li.textContent = display;
         document.getElementById("discussion").appendChild(li);
         console.log(message);
     });

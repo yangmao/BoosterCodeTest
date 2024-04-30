@@ -10,4 +10,13 @@
     <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="6.0.29" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="Booster.CodingTest.Library">
+      <HintPath>..\..\CodeTest\CodeTest\customlib\Booster.CodingTest.Library.dll</HintPath>
+    </Reference>
+    <Reference Include="NLipsum.Core">
+      <HintPath>..\..\CodeTest\CodeTest\customlib\NLipsum.Core.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

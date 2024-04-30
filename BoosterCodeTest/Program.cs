@@ -1,11 +1,13 @@
 using BoosterCodeTest.Hubs;
+using BoosterCodeTest.Services;
+using Microsoft.AspNetCore.SignalR;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddSignalR();
-
+builder.Services.AddTransient<IWordStreamService,WordStreamService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

@@ -4,9 +4,9 @@ namespace BoosterCodeTest.Hubs
 {
     public class WordsHub:Hub
     {
-        public async Task SendMessage(string label,string outcome)
+        public async Task SendMessage(string label)
         { 
-            await Clients.All.SendAsync("RecieveMessage",label,outcome);
+            await Clients.All.SendAsync("RecieveMessage",label);
         }
     }
 }

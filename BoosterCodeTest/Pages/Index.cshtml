@@ -6,26 +6,36 @@
     <div class="mt-5">
         <input type="text" title="dfdd"  id="message" />
         <input type="button" id="sendmessage" value="send"/>
-        <input type="button" onclick="location.href='@Url.Action("Start", "Home")'" value="Start" />
+        <input type="button" id="start" value="Start" />
     </div>
     <div class="mt-3">
         <ul id="discussion"></ul>
     </div>
 
 </div>
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/6.0.1/signalr.js"></script>
 <script>
     var connection = new signalR.HubConnectionBuilder().withUrl("/wordshub").build();
     connection.start();
-    document.getElementById("sendmessage").addEventListener("click", function (event) {
-        var label = document.getElementById("message").value;
-        var outcome = document.getElementById("message").value;
-        connection.invoke("SendMessage",label,outcome).catch(function (err) {
-            return console.error(err.toString());
+   
+    document.getElementById("start").addEventListener("click", function (event) {
+
+        $.ajax({
+            url: '/Home/Start',
+            success: function (data) {
+               
+            },
+            statusCode: {
+                404: function (content) { alert('cannot find resource'); },
+                500: function (content) { alert('internal server error'); }
+            },
+            error: function (req, status, errorObj) {
+
+            }
         });
         event.preventDefault();
     });
+
     connection.on("RecieveMessage", function (label,outcome) {
         var display = label + ": " + outcome;
         var li = document.createElement("li");

@@ -30,7 +30,7 @@ namespace BoosterCodeTest.Services
             var result = Encoding.Default.GetString(buffer);
             var number = CountWords(result);
 
-            await _hubcontext.Clients.All.SendAsync("SendMessage",number);
+            await _hubcontext.Clients.All.SendAsync("SendMessage","",number);
         }
 
         

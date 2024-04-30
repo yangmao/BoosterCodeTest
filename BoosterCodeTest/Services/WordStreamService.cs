@@ -2,7 +2,9 @@
 using BoosterCodeTest.Hubs;
 using Microsoft.AspNetCore.SignalR;
 using NLipsum.Core;
+using System;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace BoosterCodeTest.Services
 {
@@ -25,15 +27,19 @@ namespace BoosterCodeTest.Services
             return buffer;
         }
 
-        public async Task GetTotalNumberOfWords(byte[] buffer)
+        public async Task GetTotalNumberOfWords(string words)
         {
-            var result = Encoding.Default.GetString(buffer);
-            var number = CountWords(result);
-
-            await _hubcontext.Clients.All.SendAsync("SendMessage","",number);
+            var number = CountWords(words);
+            await _hubcontext.Clients.All.SendAsync("Notify","Number of words",number);
         }
 
-        
+        public async Task GetTotalNumberOfCharactors(string words)
+        {
+            var count = Regex.Matches(words, ".|").Count.ToString();
+            await _hubcontext.Clients.All.SendAsync("Notify", "number of Charectors", count);
+        }
+
+
         private int CountWords(string str)
         {
             if (str.Length == 0)

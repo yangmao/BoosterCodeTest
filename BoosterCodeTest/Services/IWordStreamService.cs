@@ -5,6 +5,7 @@ namespace BoosterCodeTest.Services
     public interface IWordStreamService
     {
         public Task<byte[]> GetWordStream();
-        public Task GetTotalNumberOfWords(byte[] buffer);
+        public Task GetTotalNumberOfWords(string buffer);
+        public Task GetTotalNumberOfCharactors(string words);
     }
 }

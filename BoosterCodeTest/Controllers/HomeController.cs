@@ -2,6 +2,8 @@
 using BoosterCodeTest.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
+using System.Text;
+using System;
 
 
 namespace BoosterCodeTest.Controller
@@ -23,7 +25,9 @@ namespace BoosterCodeTest.Controller
         public async Task<IActionResult> Start()
         {
             _streamBuffer = await _wordStreamService.GetWordStream();
-            await _wordStreamService.GetTotalNumberOfWords(_streamBuffer);
+            var result = Encoding.Default.GetString(_streamBuffer);
+            await _wordStreamService.GetTotalNumberOfWords(result);
+            await _wordStreamService.GetTotalNumberOfCharactors(result);
             return Ok(_streamBuffer);
         }
     }

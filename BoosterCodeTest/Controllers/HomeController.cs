@@ -26,8 +26,7 @@ namespace BoosterCodeTest.Controller
         {
             _streamBuffer = await _wordStreamService.GetWordStream();
             var result = Encoding.Default.GetString(_streamBuffer);
-            await _wordStreamService.GetTotalNumberOfWords(result);
-            await _wordStreamService.GetTotalNumberOfCharactors(result);
+            await _wordStreamService.ProcessedWords(result);
             return Ok(_streamBuffer);
         }
     }

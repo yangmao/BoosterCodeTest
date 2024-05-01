@@ -1,12 +1,13 @@
-﻿using Microsoft.AspNetCore.SignalR;
+﻿using BoosterCodeTest.Models;
+using Microsoft.AspNetCore.SignalR;
 
 namespace BoosterCodeTest.Hubs
 {
     public class WordsHub:Hub
     {
-        public async Task Notify(string label,string message)
+        public async Task Notify(ProcessedWords processedWords)
         { 
-            await Clients.All.SendAsync("RecieveMessage",label,message);
+            await Clients.All.SendAsync("RecieveMessage", processedWords);
         }
     }
 }

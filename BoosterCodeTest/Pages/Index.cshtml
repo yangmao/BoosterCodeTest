@@ -9,7 +9,7 @@
         <input type="button" id="start" value="Start" />
     </div>
     <div class="mt-3">
-        <ul id="discussion"></ul>
+        <ul id="results"></ul>
     </div>
 
 </div>
@@ -36,12 +36,27 @@
         event.preventDefault();
     });
 
-    connection.on("RecieveMessage", function (label,outcome) {
-        var display = label + ": " + outcome;
+    connection.on("RecieveMessage", function (processedWords) {
+        
         var li = document.createElement("li");
-        li.textContent = display;
-        document.getElementById("discussion").appendChild(li);
-        console.log(message);
+        li.textContent = "number of words:"+ processedWords.numberOfWords;
+        document.getElementById("results").appendChild(li);
+        var li = document.createElement("li");
+        li.textContent = "number of charectors:" + processedWords.numberOfCharectors;
+        document.getElementById("results").appendChild(li);
+        var li = document.createElement("li");
+        li.textContent = "five smallest words:" + processedWords.smallestWords;
+        document.getElementById("results").appendChild(li);
+        var li = document.createElement("li");
+        li.textContent = "five largest words:" + processedWords.largestWords;
+        document.getElementById("results").appendChild(li);
+        var li = document.createElement("li");
+        li.textContent = "most frequent 10 words:" + processedWords.mostFrequent10Words;
+        document.getElementById("results").appendChild(li);
+        var li = document.createElement("li");
+        li.textContent = "charectors sorted by frequency descendently:" + processedWords.charectorOrderbyFrequency;
+        document.getElementById("results").appendChild(li);
+        
     });
     
 </script>

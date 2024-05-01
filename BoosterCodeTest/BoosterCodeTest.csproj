@@ -7,15 +7,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="6.0.29" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="6.0.1" />
   </ItemGroup>
 
   <ItemGroup>
     <Reference Include="Booster.CodingTest.Library">
-      <HintPath>..\..\CodeTest\CodeTest\customlib\Booster.CodingTest.Library.dll</HintPath>
+      <HintPath>..\lib\Booster.CodingTest.Library.dll</HintPath>
     </Reference>
     <Reference Include="NLipsum.Core">
-      <HintPath>..\..\CodeTest\CodeTest\customlib\NLipsum.Core.dll</HintPath>
+      <HintPath>..\lib\NLipsum.Core.dll</HintPath>
     </Reference>
   </ItemGroup>
 

@@ -1,6 +1,9 @@
 ﻿using Booster.CodingTest.Library;
 using BoosterCodeTest.Hubs;
+using BoosterCodeTest.Models;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.AspNetCore.SignalR.Client;
 using NLipsum.Core;
 using System;
 using System.Text;
@@ -27,20 +30,54 @@ namespace BoosterCodeTest.Services
             return buffer;
         }
 
-        public async Task GetTotalNumberOfWords(string words)
+        public async Task ProcessedWords(string words)
         {
-            var number = CountWords(words);
-            await _hubcontext.Clients.All.SendAsync("Notify","Number of words",number);
+            var sortedWords = SortStringByWordsLength(words);
+            var processedWords = new ProcessedWords()
+            {
+                NumberOfWords = CountWords(words),
+                NumberOfCharectors = Regex.Matches(words, ".|").Count,
+                SmallestWords = sortedWords.Take(5).ToList(),
+                LargestWords = sortedWords.Skip(sortedWords.Count - 5).ToList(),
+                MostFrequent10Words = GetMostFrequentWords(words,10),
+                CharectorOrderbyFrequency = SortCharectorByFrequency(words)
+
+            };
+            await _hubcontext.Clients.All.SendAsync("RecieveMessage", processedWords);
         }
 
-        public async Task GetTotalNumberOfCharactors(string words)
+        public List<char> SortCharectorByFrequency(string sentence)
         {
-            var count = Regex.Matches(words, ".|").Count.ToString();
-            await _hubcontext.Clients.All.SendAsync("Notify", "number of Charectors", count);
+            return Regex.Replace(sentence, "[^a-zA-Z0-9]", String.Empty)
+                  .GroupBy(x => x)
+                  .Select(x => new {
+                      KeyField = x.Key,
+                      Count = x.Count()
+                  })
+                  .OrderByDescending(x => x.Count)
+                  .Select(x => x.KeyField).ToList();
+        }
+        
+        public List<string> SortStringByWordsLength(string sentence)
+        {
+            var punctuation = sentence.Where(Char.IsPunctuation).Distinct().ToArray();
+            var words = sentence.Split().Select(x => x.Trim(punctuation));
+            return  words.Where(x=>x !="").OrderBy(x => x.Length).Distinct().ToList();
         }
 
-
-        private int CountWords(string str)
+        public List<string> GetMostFrequentWords(string sentence, int number)
+        {
+            return sentence
+                  .Split(' ')
+                  .GroupBy(x => x)
+                  .Select(x => new {
+                      KeyField = x.Key,
+                      Count = x.Count()
+                  })
+                  .OrderByDescending(x => x.Count)
+                  .Take(number).Select(x => x.KeyField).ToList();
+        }
+        public  int CountWords(string str)
         {
             if (str.Length == 0)
             {

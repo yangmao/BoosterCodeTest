@@ -13,9 +13,11 @@ namespace BoosterCodeTest.Services
 {
     public class WordStreamService:IWordStreamService
     {
-        private readonly string _words;
-        private WordStream _stream;
-        private readonly IHubContext<WordsHub> _hubcontext;
+        private readonly string? _words;
+        private WordStream? _stream;
+        private readonly IHubContext<WordsHub>? _hubcontext;
+
+        public WordStreamService() { }
         public WordStreamService(IHubContext<WordsHub> hubcontext) 
         { 
             _words = LipsumGenerator.Generate(1);
@@ -26,7 +28,7 @@ namespace BoosterCodeTest.Services
         public async Task<byte[]> GetWordStream() {
 
             byte[] buffer = Encoding.ASCII.GetBytes(_words);
-            await _stream.ReadAsync(buffer,0,64);
+            _stream.Read(buffer,0,64);
             return buffer;
         }
 

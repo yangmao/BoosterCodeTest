@@ -17,11 +17,7 @@ namespace BoosterCodeTest.Controller
             _wordStreamService = wordStreamService;
             _streamBuffer  = new byte[64];
         }
-        public IActionResult Index()
-        {
-            return new ViewResult();
-        }
-
+       
         public async Task<IActionResult> Start()
         {
             _streamBuffer = await _wordStreamService.GetWordStream();
